@@ -133,13 +133,19 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
       <div class="breakdown-item"><div class="amount" id="annualGross">$0</div><div class="label">Gross Revenue Needed</div></div>
       <div class="breakdown-item"><div class="amount" id="monthlyTarget">$0</div><div class="label">Monthly Revenue Target</div></div>
     </div>
-    <div class="paywall-cta">
+    <div class="paywall-cta" id="paywallCta">
       <h3>Get Your Freelance Rate Kit</h3>
       <p>Includes rate calculator, proposal template, and client email scripts.</p>
       <div class="paywall-buttons">
         <a href="https://www.paypal.com/paypalme/pinplan/1" target="_blank" class="btn btn-pay">Get Rate Kit — $1</a>
         <a href="https://tally.so/r/lbMlop" target="_blank" class="btn btn-outline">Email My Results (Free)</a>
       </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:14px">Already paid or submitted? <a href="#" id="btnUnlock" style="color:var(--primary);font-weight:600">Unlock →</a></p>
+    </div>
+    <div class="paywall-cta" id="thankYouCta" style="display:none">
+      <h3>Thank You for Your Support!</h3>
+      <p>Your contribution keeps this tool free and ad-free. Check out our other free tools.</p>
+      <a href="https://fannycool.github.io/" class="btn btn-outline" style="margin-top:8px">More Free Tools</a>
     </div>
   </div>
 
@@ -220,6 +226,11 @@ dom.btnCalculate.addEventListener('click',()=>{
   if(!target||target<=0){showToast('Please enter a valid income target');return;}
   render(calculate());
 });
+
+// Unlock
+var UK='tool_unlocked_freelance';
+if(localStorage.getItem(UK)==='1'){$('#paywallCta').style.display='none';$('#thankYouCta').style.display='';}
+$('#btnUnlock').addEventListener('click',function(e){e.preventDefault();localStorage.setItem(UK,'1');$('#paywallCta').style.display='none';$('#thankYouCta').style.display='';showToast('Unlocked! Thank you for your support.');});
 
 // Visit tracking
 (function(){
