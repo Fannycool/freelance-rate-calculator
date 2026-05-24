@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelance Rate Calculator — What Hourly Rate Should You Charge? (2026)</title>
+<meta name="description" content="Calculate the hourly rate you need as a freelancer. Accounts for taxes, time off, expenses, and billable hours. Free, instant results.">
+<meta property="og:title" content="Freelance Rate Calculator — What Should Your Hourly Rate Be?">
+<meta property="og:description" content="Stop guessing. Calculate exactly what hourly rate you need to hit your income goals.">
+<style>
+:root {
+  --primary: #7C3AED;
+  --primary-light: #F5F3FF;
+  --primary-dark: #6D28D9;
+  --accent: #059669;
+  --accent-light: #D1FAE5;
+  --danger: #DC2626;
+  --bg: #F5F7FA;
+  --card: #FFFFFF;
+  --text: #1E293B;
+  --text-secondary: #64748B;
+  --border: #E2E8F0;
+  --radius: 12px; --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:680px;margin:0 auto;padding:16px}
+.header{text-align:center;padding:28px 16px 20px}
+.header .logo{display:inline-flex;align-items:center;gap:10px;font-size:26px;font-weight:700;color:var(--primary);letter-spacing:-.5px}
+.header .logo .icon{width:40px;height:40px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
+.header .subtitle{margin-top:6px;color:var(--text-secondary);font-size:14px}
+.card{background:var(--card);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-header{font-size:18px;font-weight:600;margin-bottom:18px}
+.form-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.form-group{flex:1;min-width:150px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:5px;white-space:nowrap}
+.form-group input,.form-group select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:var(--font);transition:border-color .2s,box-shadow .2s;background:#FAFBFC}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#C4B5FD;box-shadow:0 0 0 3px rgba(124,58,237,.1);background:#fff}
+.input-prefix{position:relative}
+.input-prefix .prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:15px;pointer-events:none}
+.input-prefix input{padding-left:24px}
+.results{display:none}
+.results.show{display:block}
+.result-hero{text-align:center;padding:28px 16px;background:linear-gradient(135deg,var(--primary-light),#EDE9FE);border-radius:var(--radius-sm);margin-bottom:16px}
+.result-hero .total-label{font-size:14px;color:var(--text-secondary);margin-bottom:4px}
+.result-hero .total-amount{font-size:52px;font-weight:800;color:var(--primary);line-height:1.2}
+.result-hero .total-suffix{font-size:16px;color:var(--text-muted)}
+.breakdown-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.breakdown-item{text-align:center;padding:16px 12px;background:var(--bg);border-radius:var(--radius-sm)}
+.breakdown-item .amount{font-size:22px;font-weight:700}
+.breakdown-item .label{font-size:12px;color:var(--text-secondary);margin-top:2px}
+.breakdown-item.good .amount{color:var(--accent)}
+.breakdown-item.warn .amount{color:#F59E0B}
+.paywall-cta{text-align:center;padding:20px;background:var(--primary-light);border-radius:var(--radius-sm)}
+.paywall-cta h3{font-size:18px;margin-bottom:6px}
+.paywall-cta p{font-size:14px;color:var(--text-secondary);margin-bottom:14px}
+.paywall-buttons{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 24px;font-size:15px;font-weight:600;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;font-family:var(--font);text-decoration:none}
+.btn-primary{background:var(--primary);color:#fff;width:100%}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.07)}
+.btn-pay{background:#FFC439;color:#1A1A1A}
+.btn-pay:hover{background:#F5B800}
+.btn-outline{background:#fff;color:var(--primary);border:2px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.seo-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.seo-section h2{font-size:18px;margin-bottom:12px}
+.seo-section p,.seo-section li{font-size:14px;color:var(--text-secondary);line-height:1.7}
+.footer{text-align:center;padding:24px 16px 32px;color:#94A3B8;font-size:13px}
+.footer a{color:var(--primary);text-decoration:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1E293B;color:#fff;padding:12px 24px;border-radius:20px;font-size:14px;font-weight:500;box-shadow:0 10px 25px rgba(0,0,0,.15);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:480px){.container{padding:8px}.card{padding:16px}.form-row{flex-direction:column;gap:10px}.result-hero .total-amount{font-size:36px}}
+@media print{body{background:#fff}.card{box-shadow:none;border:1px solid #ddd}.btn,.paywall-cta,.footer,.seo-section{display:none!important}}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="header">
+  <div class="logo"><div class="icon">&#128188;</div>Freelance Rate Calculator</div>
+  <p class="subtitle">Stop guessing. Calculate exactly what hourly rate you need to reach your income goals.</p>
+</header>
+
+<main>
+  <div class="card">
+    <div class="card-header">Your Situation</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Target Annual Income (take-home)</label>
+        <div class="input-prefix"><span class="prefix">$</span><input type="number" id="targetIncome" value="80000" min="0" step="1000"></div>
+      </div>
+      <div class="form-group">
+        <label>Hours You Can Bill Per Week</label>
+        <input type="number" id="billableHours" value="30" min="1" max="60" step="1">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Weeks You Work Per Year</label>
+        <input type="number" id="workWeeks" value="46" min="1" max="52" step="1">
+      </div>
+      <div class="form-group">
+        <label>Tax Rate (%)</label>
+        <input type="number" id="taxRate" value="30" min="0" max="60" step="1">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Annual Business Expenses ($)</label>
+        <div class="input-prefix"><span class="prefix">$</span><input type="number" id="expenses" value="5000" min="0" step="500"></div>
+      </div>
+      <div class="form-group">
+        <label>Non-Billable Time (%)</label>
+        <input type="number" id="nonBillable" value="20" min="0" max="60" step="5">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btnCalculate">Calculate My Rate</button>
+  </div>
+
+  <div class="card results" id="resultsCard">
+    <div class="card-header">Your Required Hourly Rate</div>
+    <div class="result-hero">
+      <div class="total-label">You Need to Charge</div>
+      <div class="total-amount" id="requiredRate">$0</div>
+      <div class="total-suffix">per billable hour</div>
+    </div>
+    <div class="breakdown-grid">
+      <div class="breakdown-item good"><div class="amount" id="takeHome">$0</div><div class="label">Take-Home per Hour</div></div>
+      <div class="breakdown-item warn"><div class="amount" id="taxPerHr">$0</div><div class="label">Tax per Hour</div></div>
+      <div class="breakdown-item"><div class="amount" id="expPerHr">$0</div><div class="label">Expenses per Hour</div></div>
+      <div class="breakdown-item"><div class="amount" id="annualBillable">0h</div><div class="label">Billable Hours/Year</div></div>
+      <div class="breakdown-item"><div class="amount" id="annualGross">$0</div><div class="label">Gross Revenue Needed</div></div>
+      <div class="breakdown-item"><div class="amount" id="monthlyTarget">$0</div><div class="label">Monthly Revenue Target</div></div>
+    </div>
+    <div class="paywall-cta">
+      <h3>Get Your Freelance Rate Kit</h3>
+      <p>Includes rate calculator, proposal template, and client email scripts.</p>
+      <div class="paywall-buttons">
+        <a href="https://www.paypal.com/paypalme/pinplan/1" target="_blank" class="btn btn-pay">Get Rate Kit — $1</a>
+        <a href="https://tally.so/r/lbMlop" target="_blank" class="btn btn-outline">Email My Results (Free)</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card seo-section">
+    <h2>How Much Should Freelancers Charge Per Hour?</h2>
+    <p>Setting your freelance rate isn't just about picking a number. Your rate must cover taxes (self-employment tax is 15.3% in the US), health insurance, retirement, time off, business expenses, and the non-billable hours spent on marketing, admin, and client communication.</p>
+    <p><strong>Quick rule of thumb:</strong> Take your desired annual salary, divide by 1,000, and double it. If you want $80,000/year, start at $160/hour. This accounts for taxes, expenses, and non-billable time.</p>
+    <p><strong>Freelancers charge $25–$250+/hour</strong> depending on skill, niche, and experience. Developers and designers typically charge $75–$150/hr. Writers and VAs charge $30–$75/hr. Specialized consultants can charge $200+/hr.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Freelance Rate Calculator &copy; 2026 &middot; For estimation only</p>
+  <p><a href="https://fannycool.github.io/">More Free Tools</a></p>
+</footer>
+<div class="toast" id="toast"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const dom={
+  targetIncome:$('#targetIncome'), billableHours:$('#billableHours'),
+  workWeeks:$('#workWeeks'), taxRate:$('#taxRate'), expenses:$('#expenses'),
+  nonBillable:$('#nonBillable'), btnCalculate:$('#btnCalculate'),
+  resultsCard:$('#resultsCard'), requiredRate:$('#requiredRate'),
+  takeHome:$('#takeHome'), taxPerHr:$('#taxPerHr'), expPerHr:$('#expPerHr'),
+  annualBillable:$('#annualBillable'), annualGross:$('#annualGross'),
+  monthlyTarget:$('#monthlyTarget'), toast:$('#toast')
+};
+
+function fmt(d){return '$'+d.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+function fmtDec(d){return '$'+d.toFixed(2)}
+
+function calculate(){
+  const target=parseFloat(dom.targetIncome.value)||80000;
+  const billable=parseFloat(dom.billableHours.value)||30;
+  const weeks=parseFloat(dom.workWeeks.value)||46;
+  const tax=parseFloat(dom.taxRate.value)/100||0.3;
+  const expenses=parseFloat(dom.expenses.value)||5000;
+  const nonBill=parseFloat(dom.nonBillable.value)/100||0.2;
+
+  const annualBillableHrs=billable*weeks;
+  const grossNeeded=(target+expenses)/(1-tax);
+  const effectiveBillable=annualBillableHrs*(1-nonBill);
+  const requiredRate=effectiveBillable>0?grossNeeded/effectiveBillable:0;
+
+  return {
+    requiredRate,takeHomeRate:requiredRate>0?target/effectiveBillable:0,
+    taxPerHr:requiredRate>0?grossNeeded*tax/effectiveBillable:0,
+    expPerHr:effectiveBillable>0?expenses/effectiveBillable:0,
+    annualBillableHrs:Math.round(annualBillableHrs),
+    grossNeeded:Math.round(grossNeeded),
+    monthlyTarget:Math.round(grossNeeded/12)
+  };
+}
+
+function render(r){
+  dom.requiredRate.textContent=fmtDec(r.requiredRate);
+  dom.takeHome.textContent=fmtDec(r.takeHomeRate);
+  dom.taxPerHr.textContent=fmtDec(r.taxPerHr);
+  dom.expPerHr.textContent=fmtDec(r.expPerHr);
+  dom.annualBillable.textContent=r.annualBillableHrs+'h';
+  dom.annualGross.textContent=fmt(r.grossNeeded);
+  dom.monthlyTarget.textContent=fmt(r.monthlyTarget);
+  dom.resultsCard.classList.add('show');
+  dom.resultsCard.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+let toastTimer;
+function showToast(m){
+  dom.toast.textContent=m;dom.toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>dom.toast.classList.remove('show'),2000);
+}
+
+dom.btnCalculate.addEventListener('click',()=>{
+  const target=parseFloat(dom.targetIncome.value);
+  if(!target||target<=0){showToast('Please enter a valid income target');return;}
+  render(calculate());
+});
+
+// Visit tracking
+(function(){
+  var k='pv_freelance_calc',d={total:0,unique:0,first:'',last:''};
+  try{var s=localStorage.getItem(k);if(s)d=JSON.parse(s);}catch(e){}
+  d.total++;
+  var t=new Date().toISOString().split('T')[0];
+  if(d.last!==t){d.unique++;d.last=t;}
+  if(!d.first)d.first=t;
+  try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}
+  console.log('Traffic:',d.total+' total, '+d.unique+' unique days, first:'+d.first);
+})();
+</script>
+</body>
+</html>
